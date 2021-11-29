@@ -54,5 +54,6 @@ public class Brand {
 
     public void setCategory(Category category) {
         this.category = category;
+        System.out.print("Y");
     }
 }
