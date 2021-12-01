@@ -31,7 +31,7 @@ public class GoodsServicelmpl implements IBaseDao<Goods> {
     }
 
     @Override
-    public HashMap<Integer, Goods> findByProp(HashMap<String, String> prop) {
+    public HashMap<Integer, Goods> findByProp(HashMap<String, Object> prop) {
         return gdi.findByProp(prop);
     }
 

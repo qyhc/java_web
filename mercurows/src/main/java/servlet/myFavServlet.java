@@ -1,19 +1,23 @@
 package servlet;
+
+import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
+import service.impl.CustomerServicelmpl;
 
-@WebServlet("/doReg")
+@WebServlet("/myFav")
 
-public class ResServlet extends HttpServlet{
+public class myFavServlet extends HttpServlet {
+    CustomerServicelmpl csi = new CustomerServicelmpl();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("dores.jsp").forward(req,resp);
-
+        req.getRequestDispatcher("myFav.jsp").forward(req, resp);
     }
 
     @Override

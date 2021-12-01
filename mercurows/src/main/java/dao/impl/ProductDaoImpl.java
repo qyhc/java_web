@@ -48,7 +48,7 @@ public class ProductDaoImpl extends Db implements IBaseDao<Product> {
     }
 
     @Override
-    public HashMap<Integer, Product> findByProp(HashMap<String, String> prop) {
+    public HashMap<Integer, Product> findByProp(HashMap<String, Object> prop) {
         return null;
     }
 

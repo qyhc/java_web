@@ -22,5 +22,5 @@ public interface IBaseDao<T> {
     T findById(int id);
 
     //    模糊查询{"id="90";"address"='广州';"name"=""}
-    HashMap<Integer, T> findByProp(HashMap<String, String> prop);
+    HashMap<Integer, T> findByProp(HashMap<String, Object> prop);
 }

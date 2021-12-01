@@ -13,7 +13,6 @@ import dao.Db;
 import dao.IBaseDao;
 import dao.impl.GoodsDaoImpl;
 import pur.Goods;
-import  pur.Goods;
 
 public class DataServiceImpl extends Db implements IBaseDao<Goods> {
     Goods goods;
@@ -41,7 +40,7 @@ public class DataServiceImpl extends Db implements IBaseDao<Goods> {
         return gdi.findById(id);
     }
     @Override
-    public HashMap<Integer, Goods> findByProp(HashMap<String, String> prop) {
+    public HashMap<Integer, Goods> findByProp(HashMap<String, Object> prop) {
         return gdi.findByProp(prop);
     }
 

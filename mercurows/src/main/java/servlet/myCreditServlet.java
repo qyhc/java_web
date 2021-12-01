@@ -3,17 +3,21 @@ package servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import service.impl.CustomerServicelmpl;
 
+@WebServlet("/myCredit")
 
-public class LoginServlet extends HttpServlet {
+public class myCreditServlet extends HttpServlet {
+    CustomerServicelmpl csi = new CustomerServicelmpl();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        resp.getWriter().println("welcome ！");
-        req.getRequestDispatcher("doLoin.jsp").forward(req,resp);
+        req.getRequestDispatcher("myCredit.jsp").forward(req, resp);
     }
 
     @Override

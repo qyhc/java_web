@@ -48,7 +48,7 @@ public class BrandDaoImpl extends Db implements IBaseDao<Brand> {
     }
 
     @Override
-    public HashMap<Integer, Brand> findByProp(HashMap<String, String> prop) {
+    public HashMap<Integer, Brand> findByProp(HashMap<String, Object> prop) {
         return null;
     }
 }

@@ -1,91 +1,64 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div class="row clearfix">
     <div class="col-md-12 column">
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
-                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">Brand</a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1"><span class="sr-only">Toggle navigation</span><span
+                        class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                <a class="navbar-brand" href="market">Brand</a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                         <a href="#">功能1</a>
-                    </li>
-                    <li class="dropdown">
-                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">下拉功能1<strong class="caret"></strong></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                 <a href="#">Action</a>
-                            </li>
-                            <li>
-                                 <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                 <a href="#">Something else here</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                 <a href="#">Separated link</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                 <a href="#">One more separated link</a>
-                            </li>
-                        </ul>
+                        <a href="#">功能1</a>
                     </li>
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group">
-                        <input type="text" class="form-control" />
-                    </div> <button type="submit" class="btn btn-default">查询</button>
+                        <input type="text" class="form-control"/>
+                    </div>
+                    <button type="submit" class="btn btn-default">查询</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
+                    <c:choose>
+                    <%-- 如果有客户存在 --%>
+                        <c:when test="${sessionScope.customer!=null}">
+                            <li>
+                                <a href="#">
+                                    欢迎您：
+                                   <strong class="text-danger">
+                                       <c:out value="${sessionScope.customer.username}"></c:out>
+                                   </strong>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="doLoin.jsp">退出</a>
+                            </li>
+                        </c:when>
+                        <%-- 如果没有客户存在 --%>
+                        <c:otherwise>
+                            <li>
+                                <a href="doLoin.jsp">登录</a>
+                            </li>
+                            <li>
+                                <a href="register.jsp">注册</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                    <%-- 显示当前的购物车中的购买数量 --%>
                     <li>
-                         <a href="#">登录</a>
+                        <a href="shoppingCart"> <span class="badge pull-right text-success"
+                             style="background-color: green;">${fn:length(sessionScope.cart)}</span>我的购物车</a>
                     </li>
                     <li>
-                         <a href="#">注册</a>
-                    </li>
-                    <li>
-                         <div class="row clearfix">
-                              <div class="col-md-12 column">
-                                   <ul class="nav nav-pills">
-                                        <li class="active" style = "background-color:#f8f8f8 color: #fff" width:130.35px height:50px>
-                                             <%-- <a href="#"> <span class="badge pull-right">42</span> 我的购物车</a> --%>
-                                             <a href="#">我的购物车<span class="badge" style = "background-color:#008000">0</span></a>
-                                        </li>
-                                   </ul>
-                              </div>
-                         </div>
-                    </li>
-                    <li class="dropdown">
-                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">下拉功能2<strong class="caret"></strong></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                 <a href="#">Action</a>
-                            </li>
-                            <li>
-                                 <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                 <a href="#">Something else here</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                 <a href="#">Separated link</a>
-                            </li>
-                        </ul>
+                        <a href="infoCenter">个人中心</a>
                     </li>
                 </ul>
             </div>
-
         </nav>
     </div>
 </div>
-
-

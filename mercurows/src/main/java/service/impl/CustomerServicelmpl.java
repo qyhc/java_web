@@ -1,5 +1,6 @@
 package service.impl;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import dao.IBaseDao;
@@ -37,9 +38,23 @@ public class CustomerServicelmpl implements IBaseDao<Customer> {
         return cdi.findByUandP(u, p);
     }
     @Override
-    public HashMap<Integer, Customer> findByProp(HashMap<String, String> prop) {
-        // TODO Auto-generated method stub
-        return null;
+    public HashMap<Integer, Customer> findByProp(HashMap<String, Object> prop) {
+        return cdi.findByProp(prop);
+    }
+
+    public boolean isExist(String type,String sr) {
+        boolean f = false;
+        HashMap<String, Object> options = new HashMap<>();
+        options.put(type, sr);
+        try {
+            HashMap<Integer, Customer> result = cdi.findByProp(options);
+            if(result.size()!=0){
+                f= true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return f;
     }
 
 }

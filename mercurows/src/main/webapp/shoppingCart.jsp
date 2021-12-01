@@ -71,25 +71,25 @@
                                         <input type="checkbox" class="ck">
                                     </td>
                                     <td>
-                                        <img src = "static/images/${p.value.product.img}" alt="50x50" style = "width: 50px;height:50px;">
+                                        <img src = "static/images/${p.value.goods.imgUrl}" alt="50x50" style = "width: 50px;height:50px;">
 
                                     </td>
                                     <td>
-                                        ${p.value.product.desc}
+                                        ${p.value.goods.ch_spec}
                                     </td>
                                     <td>
-                                        ${p.value.product.name}
+                                        库存：${p.value.goods.stock}
                                     </td>
                                     <td>
                                         <button class = "reduce">-</button>
-                                        <input type="text" name="num" value="${p.value.num}" style="..." readonly>
+                                        <input type="text" name="num" value="${p.value.buyNum}" style="..." readonly>
                                         <button class = "plus">+</button>
                                     </td>
                                     <td class="price">
-                                        ${p.value.product.price}
+                                        ${p.value.goods.out_price}
                                     </td>
                                     <td class="xj">
-                                        ${p.value.num*p.value.product.price}
+                                        ${p.value.buyNum*p.value.goods.out_price}
                                     </td>
                                     <td>
                                         <span class = "del">删除</span>

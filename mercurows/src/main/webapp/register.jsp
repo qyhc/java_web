@@ -1,11 +1,8 @@
-<%@ page import="pur.*,java.util.HashMap,servlet.*" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%-- <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %> --%>
 <html>
+
 <head>
-    <title>会员中心</title>
+    <title>注册</title>
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <script src="static/js/jquery-1.10.2.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
@@ -13,7 +10,6 @@
 <body>
 <div class="container">
     <jsp:include page="common/header.jsp"/>
-    <%-- 引入头部文件 --%>
     <div class="row clearfix">
         <div class="col-md-3 column">
         </div>
@@ -21,17 +17,20 @@
             <h3 class="text-center">
                 注册页面
             </h3>
-            <form class="form-horizontal" role="form" action = "doRegister">
+            <form class="form-horizontal" role="form" action="doRegister">
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-4 control-label">账号*</label>
+                    <label for="username" class="col-sm-4 control-label">账号*</label>
                     <div class="col-sm-6">
-                        <input type="text" placeholder="请填写账号" class="form-control" id="inputEmail3" name="username" required/>
+                        <input type="text" placeholder="请填写账号" class="form-control" id="username" name="username"
+                               required/>
                     </div>
+                    <span id="exist"></span>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-4 control-label">密码*</label>
                     <div class="col-sm-6">
-                        <input type="password" placeholder="请填写密码" name="password" class="form-control" id="inputPassword3" required/>
+                        <input type="password" placeholder="请填写密码" name="pass" class="form-control" id="inputPassword3"
+                               required/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -43,7 +42,8 @@
                 <div class="form-group">
                     <label for="inputPassword4" class="col-sm-4 control-label">手机*</label>
                     <div class="col-sm-6">
-                        <input type="tel" placeholder="请填写手机号或固定电话"  required name="tel" size="11" maxlength="11" class="form-control" id="inputPassword4"/>
+                        <input type="tel" placeholder="请填写手机号或固定电话" required name="tel" size="11" maxlength="11"
+                               class="form-control" id="inputPassword4"/>
                     </div>
                     <span>获取验证码</span>
                 </div>
@@ -55,8 +55,9 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-5  text-center">
-                        <button type="submit" class="btn btn-default btn-block btn-primary">注&nbsp;&nbsp;&nbsp;册
-                        </button>
+                        <button type="submit" class="btn btn-default btn-block btn-primary"/>
+                        注&nbsp;&nbsp;&nbsp;册
+                        </input>
                     </div>
                 </div>
             </form>
@@ -68,3 +69,68 @@
 </div>
 </body>
 </html>
+<script>
+    // 判断用户名是否重和
+    $(function () {
+        var objUsername = $("#username");//选取账号输入框
+        //触发失去焦点事件
+        objUsername.blur(function () {
+            //异步送出数据，至控制层，测试是否存在此账号
+            $.ajax({
+                    type: "get", //访问方式
+                    url: "isExist", //访问路径
+                    data: {//传入服务端的数据
+                        "username": objUsername.val()
+                    },
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (message) {
+                        if(message=='1'){
+                            objUsername.focus();
+                            $('#exist').html("账号已被占用");
+                            $('#exist').css("color","red");
+                        }else{
+                            $('#exist').html("账号可使用");
+                            $('#exist').css("color","green");
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }
+            );
+        });
+    });
+
+// 判断手机号是否重合
+   $(function () {
+        var objUsername = $("#inputPassword4");//选取账号输入框
+        //触发失去焦点事件
+        objUsername.blur(function () {
+            //异步送出数据，至控制层，测试是否存在此账号
+            $.ajax({
+                    type: "get", //访问方式
+                    url: "isExist", //访问路径
+                    data: {//传入服务端的数据
+                        "tel": objUsername.val()
+                    },
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (message) {
+                        if(message=='1'){
+                            objUsername.focus();
+                            $('#exist').html("电话已被占用");
+                            $('#exist').css("color","red");
+                        }else{
+                            $('#exist').html("电话可使用");
+                            $('#exist').css("color","green");
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }
+            );
+        });
+    });
+</script>

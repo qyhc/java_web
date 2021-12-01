@@ -48,7 +48,7 @@ public class OrderItemDaoImpl extends Db implements IBaseDao<OrderItem> {
     }
 
     @Override
-    public HashMap<Integer, OrderItem> findByProp(HashMap<String, String> prop) {
+    public HashMap<Integer, OrderItem> findByProp(HashMap<String, Object> prop) {
         return null;
     }
 

@@ -1,7 +1,5 @@
 package pur;
 
-import java.sql.Timestamp;
-
 public class Orders {
     int id;//订单编号
     double totalSum;//订单总金额

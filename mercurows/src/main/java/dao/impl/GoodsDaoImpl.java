@@ -48,7 +48,7 @@ public class GoodsDaoImpl extends Db implements IBaseDao<Goods> {
      */
 
     @Override
-    public HashMap<Integer, Goods> findByProp(HashMap<String, String> prop) {
+    public HashMap<Integer, Goods> findByProp(HashMap<String, Object> prop) {
         String sql = "select  *  from goods";
         HashMap<Integer, Goods> data = null;
 
@@ -101,8 +101,17 @@ public class GoodsDaoImpl extends Db implements IBaseDao<Goods> {
 
     @Override
     public Goods findById(int id) {
-        // TODO Auto-generated method stub
-        return null;
+        Goods good = null;//定义订单类对象
+        // 创建queryRunner 查询器
+        String sql = "SELECT  *  from Goods where id=?";
+        // 调用方法
+        try {
+            good = (Goods) runner.query(sql, new BeanHandler<Goods>(Goods.class), new Object[] {id});
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return good;
     }
 
 }
