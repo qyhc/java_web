@@ -12,9 +12,9 @@ import java.util.HashMap;
 import pur.*;
 import service.impl.DataServiceImpl;
 
-@WebServlet("/addCart")
+@WebServlet("/delCart")
 
-public class addCartServlet extends HttpServlet {
+public class delCartServlet extends HttpServlet {
     DataServiceImpl dsi = new DataServiceImpl();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,41 +31,32 @@ public class addCartServlet extends HttpServlet {
             sb.append(temp);
         }
         //对串进行分割取分割后的第二个字符
-        String str_id = sb.toString().split("=")[1];
+        String str_id = sb.toString().split("=")[1].split("&")[0];
+        String str_num = sb.toString().split("=")[2];
         //转整数
         int id = Integer.parseInt(str_id);
+        int num = Integer.parseInt(str_num);
         System.out.print(str_id);
-        //通过id找商品
+        System.out.print(str_num);
+        //通过id找需要删除的商品
         goods = dsi.findById(id);
         System.out.println(goods);
+        // 获取购物车
         cart = (HashMap<Integer, OrderItem>) req.getSession().getAttribute("cart");
-        //判断session中有无购物车cart
-        if (cart == null) {
-            //若无则生成
-            cart = new HashMap<Integer, OrderItem>();
-        }
-        //若有，则修改后重新写入；若无则全新写入
-
-        //判断购物详情是否在购物车中存在，若存在，则修改数量，否则，新增一条购物详情
+        //在购物车中通过需要删除的商品的id找到对应的订单详情
         orderItem = cart.get(goods.getId());
-        if (orderItem == null) {
-            orderItem = new OrderItem();
-            orderItem.setGoods(goods);
-            orderItem.setBuyNum(1);
+        // 如果该订单的购买商品数量为刚好为减去的购买数量，则将订单详情删除
+        if (orderItem.getBuyNum() - num==0) {
+            cart.remove(id);
         }
+        // 否则的话，将其对应购买数量-1
         else {
-            orderItem.setBuyNum(orderItem.getBuyNum() + 1);
+            orderItem.setBuyNum(orderItem.getBuyNum() - num);
         }
-
-        //将购物详情写入购物车
-        cart.put(goods.getId(), orderItem);
-
-        //如有则修改后改，否则全新写入
-        // req.setAttribute("cart", cart);
+        // 将购物车重写入Session
         req.getSession().setAttribute("cart", cart);
         // req.getRequestDispatcher("shoppingCart.jsp").forward(req, resp);s
         System.out.println(cart);
-
     }
 
     @Override

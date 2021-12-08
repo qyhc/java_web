@@ -1,9 +1,10 @@
 package pur;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 //顾客
-public class Customer {
+public class Customer implements Serializable{
     int id;
     String realname;//真实名
     String username;
@@ -19,6 +20,10 @@ public class Customer {
     String state;//账户状态 '1'-激活 '0'--锁定
     String level;//会员等级  '1'-普通会员  '2'--黄金会员  '3'--钻石会员
     Region region;//客户所在区ID
+
+    public Customer() {
+
+    }
 
     public int getId() {
         return id;

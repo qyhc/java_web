@@ -23,10 +23,12 @@ public class doLoginServlet extends HttpServlet {
         String p = req.getParameter("password");
 
         Customer c = csi.login(u, p);
+
         // 若找到，则将客户信息写进session，页面去商场首页，否则强制去登陆页
         if (c != null) {
             req.getSession().setAttribute("customer", c);
             req.getRequestDispatcher("market").forward(req, resp);
+            // System.out.println(req.getSession().getAttribute("customer"));
         }
         else{
             req.getRequestDispatcher("doLoin.jsp").forward(req, resp);

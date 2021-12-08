@@ -36,7 +36,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="doLoin.jsp">退出</a>
+                                <a href="Logoout">退出</a>
                             </li>
                         </c:when>
                         <%-- 如果没有客户存在 --%>
@@ -56,6 +56,7 @@
                     </li>
                     <li>
                         <a href="infoCenter">个人中心</a>
+                        <%-- <c:out val= "${sessionScope.customer}" /> --%>
                     </li>
                 </ul>
             </div>

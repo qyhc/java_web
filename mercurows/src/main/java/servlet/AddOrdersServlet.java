@@ -8,29 +8,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.impl.CustomerServicelmpl;
+import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
-@WebServlet("/isExist")
+import pur.Orders;
+import service.impl.OrdersServicelmpl;
 
-public class isExistServlet extends HttpServlet {
+@WebServlet("/addOrders")
+public class AddOrdersServlet extends HttpServlet{
+    OrdersServicelmpl oci = new OrdersServicelmpl();
 
-    CustomerServicelmpl csi = new CustomerServicelmpl();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // 获取填选用户名
-        String u = req.getParameter("username");
-        // 获取填选邮箱
-        String tel = req.getParameter("tel");
-        if (csi.isExist("username",u)||csi.isExist("tel",tel)) {
-            resp.getWriter().println("1");
-        }
-        else {
-            resp.getWriter().println("0");
-        }
+        Orders order = new Orders();
+
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // TODO Auto-generated method stub
         this.doGet(req, resp);
     }
+
 }

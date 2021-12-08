@@ -15,7 +15,7 @@
             <h3 class="text-center">
                 完善个人信息
             </h3>
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" role="form" action = "updateInfo" method = "post">
                 <div class="form-group">
                     <label for="realname" class="col-sm-4 control-label">真实名*</label>
                     <div class="col-sm-6">
@@ -32,6 +32,7 @@
                                   class="form-control" id="intro"></textarea>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="tel" class="col-sm-4 control-label">手机*</label>
                     <div class="col-sm-6">
@@ -39,7 +40,9 @@
                                value="${sessionScope.customer.tel}" size="11" maxlength="11"
                                placeholder="请填写手机" required/>
                     </div>
+                    <span id="exist1"></span>
                 </div>
+
                 <div class="form-group">
                     <label for="email" class="col-sm-4 control-label">电子邮箱*</label>
                     <div class="col-sm-6">
@@ -47,9 +50,10 @@
                                value="${sessionScope.customer.email}"
                                name="email" class="form-control" id="email"/>
                     </div>
+                    <span id="exist2"></span>
                 </div>
+
                 <div class="form-group">
-                    <%--                    <label for="gender" class="col-sm-4 control-label">性别*</label>--%>
                     <label class="col-sm-4 control-label">性别*</label>
                     <div class="col-sm-6">
                         <c:choose>
@@ -72,6 +76,7 @@
                                value="${sessionScope.customer.cardID}" name="cardID"
                                placeholder="请填写身份证信息"/>
                     </div>
+                    <span id="exist3"></span>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-5  text-center">
@@ -87,3 +92,113 @@
 </div>
 </body>
 </html>
+
+<script>
+    // 判断是否重和
+    $(function () {
+        var objUsetel = $("#tel");//选取电话
+        var objUseremail = $("#email");//选取邮箱
+        var objUsecardID = $("#cardID");//选取身份证
+
+        // 触发失去焦点事件
+        objUsetel.blur(function () {
+            //异步送出数据，至控制层，测试是否存在此电话
+            $.ajax({
+                    type: "get", //访问方式
+                    url: "IsLegality", //访问路径
+                    data: {//传入服务端的数据
+                        "tel": objUsetel.val(),
+                        "Stype":"tel"
+                    },
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (message) {
+                        if(message=='-2' || message=='2'){
+                            objUsetel.focus();
+                            if( message == '2'){
+                                $('#exist1').html("电话已被占用");
+                                $('#exist1').css("color","red");
+                            }
+                            // message == 2
+                            else{
+                                $('#exist1').html("电话格式错误");
+                                $('#exist1').css("color","red");
+                            }
+                        }
+                        // message = 3
+                        else if (message == '0'){
+                            $('#exist1').html("电话可使用");
+                            $('#exist1').css("color","green");
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }
+            );
+        });
+
+                //触发失去焦点事件
+         objUseremail.blur(function () {
+            //异步送出数据，至控制层，测试是否存在此账号
+            $.ajax({
+                    type: "get", //访问方式
+                    url: "IsLegality", //访问路径
+                    data: {//传入服务端的数据
+                        "email": objUseremail.val(),
+                        "Stype":"email"
+                    },
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (message) {
+                        if(message == '3'){
+                            objUseremail.focus();
+                            $('#exist2').html("邮箱已被占用");
+                            $('#exist2').css("color","red");
+                        }
+                        else if (message == '0'){
+                            $('#exist2').html("邮箱可使用");
+                            $('#exist2').css("color","green");
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }
+            );
+        });
+
+                //触发失去焦点事件
+        objUsecardID.blur(function () {
+            //异步送出数据，至控制层，测试是否存在此账号
+            $.ajax({
+                    type: "get", //访问方式
+                    url: "IsLegality", //访问路径
+                    data: {//传入服务端的数据
+                        "cardID": objUsecardID.val(),
+                        "Stype":"cardID"
+                    },
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (message) {
+                        if(message == '4'){
+                            objUsecardID.focus();
+                            $('#exist3').html("身份证已被占用");
+                            $('#exist3').css("color","red");
+                        }
+                        else if (message == '0'){
+                            $('#exist3').html("身份证可使用");
+                            $('#exist3').css("color","green");
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }
+            );
+        });
+
+
+    });
+</script>
+

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.apache.commons.dbutils.QueryRunner;
+
 import dao.Db;
 import dao.IBaseDao;
 import pur.Orders;
@@ -13,10 +15,22 @@ import pur.Orders;
 public class OrdersDaoImpl extends Db implements IBaseDao<Orders> {
     PreparedStatement ps = null;//带占位符参数？的操作
     ResultSet rs = null;//结果集
-
+    QueryRunner runner = new QueryRunner(getDataSource());
     @Override
     public boolean add(Orders orders) {
-        return false;
+        boolean res = false;
+        String sql = " insert into orders(totalSum,carriage,realSum,totalNum,receiverAddress"+
+                ",receiverName,receiverTel,orderTime,payTime,customer_id) values(?,?,?,?,?,?,?,?,?,?)";
+        Object[] potion = new Object[] {orders.getTotalSum(),orders.getCarriage(),orders.getRealSum()
+        ,orders.getTotalNum(),orders.getReceiverAddress(),orders.getReceiverName(),orders.getReceiverTel()
+                , orders.getOrderTime(), orders.getPayTime(), orders.getCustomer().getId() };
+        try {
+            res = runner.update(sql, potion) > 0;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return res;
     }
 
     @Override

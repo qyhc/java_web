@@ -19,10 +19,10 @@ public class myInfoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //        resp.getWriter().println("my first program！");
-        String u = req.getParameter("username");
-        String p = req.getParameter("password");
-        Customer c = csi.login(u, p);
-        req.getSession().setAttribute("customer", c);
+        // String u = req.getParameter("username");
+        // String p = req.getParameter("password");
+        // Customer c = csi.login(u, p);
+        // req.getSession().setAttribute("customer", c);
         req.getRequestDispatcher("myInfo.jsp").forward(req, resp);
     }
 
