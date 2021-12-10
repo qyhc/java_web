@@ -115,7 +115,7 @@
 
                                     </td>
                                     <td class = "totalMoney">
-                                            总计 ￥：<strong><span id = "totalSum">0.00</span></strong>
+                                            总计 ￥：<strong><span id = "totalSum" class = "totalSum">0.00</span></strong>
                                     </td>
                                     <td>
                                             <button class="qjs">去结算</button>
@@ -291,15 +291,41 @@
                                 // 获取对应的商品id值
                                 // var id = document.getElementById("rowData").getAttribute("value")
                                 var id = $(this).val();
+                                // 获取该商品的购买数量
                                 var num = $(this).parents('.rowData').find('.tnum').find('.num').val();
-                                // alert(id);
-                                // alert(num);
+                                var htmltotalSum =  $(this).parents('.rowData').find('.xj').html();
+                                // 获取该商品的应付总金额
+                                var totalSum = parseFloat(htmltotalSum);
+                                // 实付总金额与应付相同
+                                // var realSum = totalSum;
+                                // alert("商品id为："+id);
+                                // alert("购买数量为："+num);
+                                // alert("实付金额为："+totalSum);
                                 otr.remove();
-                                // 并更新数据库中的相应库存 与 购物车中的数量
+
+                                // 并更新数据库中的相应库存 × 与 购物车中的数量 √
                                 // 异步调用ajax,删除对应购物车中的商品订单 √
-                                //待定：+ - 号异步调用更新 购物车 ×
+                                //+ - 号异步调用更新 购物车 √
+                                //写入结算时将商品写入订单数据库
 
                                 // 1、将每一个被选中的商品创建一个订单
+                                $.ajax({
+                                    url:"addOrders",
+                                    dataType:"json",
+                                    type:"post",
+                                    data:{
+                                        "id":id,//商品编号
+                                        "num":num,//购买该商品的总数量
+                                        "totalSum":totalSum//购买商品的应付总金额
+                                    },
+                                    contentType:"application/json;charset=utf-8",
+                                    success:function(){
+
+                                    },
+                                    error:function(){
+
+                                    }
+                                });
 
                                 // 2、将对应的商品从购物车中删除
                                 $.ajax({

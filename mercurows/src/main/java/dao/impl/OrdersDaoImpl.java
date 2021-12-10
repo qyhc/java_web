@@ -1,12 +1,14 @@
 package dao.impl;
 
 
+import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import dao.Db;
 import dao.IBaseDao;
@@ -26,6 +28,12 @@ public class OrdersDaoImpl extends Db implements IBaseDao<Orders> {
                 , orders.getOrderTime(), orders.getPayTime(), orders.getCustomer().getId() };
         try {
             res = runner.update(sql, potion) > 0;
+            if (res) {
+                // 获取上次插入时的主键（自动增长因子）
+                Object big_id = runner.query("SELECT LAST_INSERT_ID()", new ScalarHandler(1));
+                // 再将String转成int
+                orders.setId(Integer.parseInt(big_id.toString()));
+            }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

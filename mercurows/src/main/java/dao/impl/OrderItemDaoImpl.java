@@ -15,10 +15,19 @@ import pur.OrderItem;
 public class OrderItemDaoImpl extends Db implements IBaseDao<OrderItem> {
     PreparedStatement ps = null;//带占位符参数？的操作
     ResultSet rs = null;//结果集
-
+    QueryRunner runner = new QueryRunner(getDataSource());
     @Override
     public boolean add(OrderItem OrderItem) {
-        return false;
+        boolean res = false;
+        String sql = "insert into OrderItem(orders_id,goods_id,buyPrice,buyNum)values(?,?,?,?)";
+        Object[] potion = new Object[]{OrderItem.getOrders().getId(),OrderItem.getGoods().getId()
+                , OrderItem.getBuyPrice(), OrderItem.getBuyNum() };
+        try {
+            res = runner.update(sql, potion) > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 
     @Override
@@ -35,7 +44,7 @@ public class OrderItemDaoImpl extends Db implements IBaseDao<OrderItem> {
     public OrderItem findById(int id) {
         OrderItem OrderItem = null;//定义订单类对象
         // 创建queryRunner 查询器
-        QueryRunner runner = new QueryRunner(getDataSource());
+        runner = new QueryRunner(getDataSource());
         String sql = "SELECT  *  from OrderItem where id=?";
         // 调用方法
         try {

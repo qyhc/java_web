@@ -26,6 +26,7 @@ public class addCartServlet extends HttpServlet {
         StringBuffer sb = new StringBuffer();
         //构造字符缓冲流
         String temp = "";
+
         //StringBuffer一边读，一边判断，一边写
         while ((temp = br.readLine()) != null) {
             sb.append(temp);

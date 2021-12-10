@@ -13,7 +13,6 @@ import pur.*;
 import service.impl.DataServiceImpl;
 
 @WebServlet("/delCart")
-
 public class delCartServlet extends HttpServlet {
     DataServiceImpl dsi = new DataServiceImpl();
     @Override
