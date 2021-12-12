@@ -17,6 +17,7 @@ public class MarketServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // resp.getWriter().println("marketservlet");
         System.out.print("--------------------------A--------------------------------------------");
         req.setAttribute("goods", gsi.findByProp(null));
         System.out.print(gsi.findByProp(null));

@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>商城界面</title>
+    <title>搜索结果</title>
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <script : src="static/js/jquery-1.10.2.min.js"></script>
     <script : src="static/js/bootstrap.min.js"></script>
@@ -21,7 +21,7 @@
             <div class= "row clearfix">
                 <div class="col-md-12 column">
                     <div class = "row clearfix">
-                        <c:forEach items="${goods}" var="p">
+                        <c:forEach items="${goods_search}" var="p">
                             <div class="col-md-3 column tex-center"style = "margin-bottom: 20px">
                             <img alt="200×200" src = "static/images/${p.value.imgUrl}" class = "img-rounded" class="img-rounded" style="width: 200px;height: 200px;"/>
                             <blockquote>

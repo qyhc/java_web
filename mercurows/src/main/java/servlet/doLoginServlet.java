@@ -12,7 +12,6 @@ import pur.Customer;
 import service.impl.CustomerServicelmpl;
 
 @WebServlet("/doLoin")
-
 public class doLoginServlet extends HttpServlet {
     CustomerServicelmpl csi = new CustomerServicelmpl();
 

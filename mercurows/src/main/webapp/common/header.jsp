@@ -19,9 +19,9 @@
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group">
-                        <input type="text" class="form-control"/>
+                        <input type="text" class="inputvalue"/>
                     </div>
-                    <button type="submit" class="btn btn-default">查询</button>
+                    <button type="submit" class="search">查询</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <c:choose>
@@ -63,3 +63,31 @@
         </nav>
     </div>
 </div>
+
+<%-- 动作 --%>
+<script>
+    $(function () {
+        // 搜索按钮
+        $('.search').click(function(){
+            // 获取数据
+            var content = $(this).prev().find('.inputvalue').val();
+            alert(content)
+            // 异步调用ajax
+            $.ajax({
+                url:"search",
+                dataType:"json",
+                type:"post",
+                data:{
+                    "content":content
+                },
+		        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                success:function(){
+
+                },
+                error:function(){
+
+                }
+            });
+        });
+    });
+</script>
