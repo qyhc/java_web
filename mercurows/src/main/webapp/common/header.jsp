@@ -12,16 +12,11 @@
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="#">功能1</a>
-                    </li>
-                </ul>
-                <form class="navbar-form navbar-left" role="search">
+                <form class="navbar-form navbar-left" role="search"  action ="market">
                     <div class="form-group">
-                        <input type="text" class="inputvalue"/>
+                        <input type="text" name = "content" class="inputvalue"/>
                     </div>
-                    <button type="submit" class="search">查询</button>
+                    <button type="submit" class="search1" id = "search1" name = "search1">查询</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <c:choose>
@@ -66,28 +61,30 @@
 
 <%-- 动作 --%>
 <script>
-    $(function () {
-        // 搜索按钮
-        $('.search').click(function(){
-            // 获取数据
-            var content = $(this).prev().find('.inputvalue').val();
-            alert(content)
-            // 异步调用ajax
-            $.ajax({
-                url:"search",
-                dataType:"json",
-                type:"post",
-                data:{
-                    "content":content
-                },
-		        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                success:function(){
 
-                },
-                error:function(){
+    // $(function () {
+    //     // 搜索按钮
+    //     $('.search1').click(function(){
+    //         // 获取数据
+    //         var content = $(this).prev().find('.inputvalue').val();
+    //         alert(content)
+    //         // 异步调用ajax
+    //         $.ajax({
+    //             url:"search",
+    //             dataType:"json",
+    //             type:"post",
+    //             data:{
+    //                 "content":content
+    //             },
+	// 	        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+    //             success:function(){
 
-                }
-            });
-        });
-    });
+    //             },
+    //             error:function(){
+
+    //             }
+    //         });
+    //     });
+    // });
+
 </script>

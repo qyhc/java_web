@@ -35,8 +35,7 @@ public class OrdersItemServicelmpl implements IBaseDao<OrderItem> {
 
     @Override
     public HashMap<Integer, OrderItem> findByProp(HashMap<String, Object> prop) {
-        // TODO Auto-generated method stub
-        return null;
+        return odi.findByProp(prop);
     }
 
 }

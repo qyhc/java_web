@@ -1,22 +1,24 @@
 package dao.impl;
 
-
-import java.math.BigInteger;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanMapHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import dao.Db;
 import dao.IBaseDao;
 import pur.Orders;
 
+@SuppressWarnings("unchecked")
 public class OrdersDaoImpl extends Db implements IBaseDao<Orders> {
     PreparedStatement ps = null;//带占位符参数？的操作
     ResultSet rs = null;//结果集
+    Connection conn = null;
     QueryRunner runner = new QueryRunner(getDataSource());
     @Override
     public boolean add(Orders orders) {
@@ -54,10 +56,11 @@ public class OrdersDaoImpl extends Db implements IBaseDao<Orders> {
     @Override
     public Orders findById(int id) {
         Orders orders = null;//定义订单类对象
-        String s = "SELECT  *  from orders WHERE  id=?";
+        String sql = "SELECT  *  from orders WHERE  id=?";
         //在连接的基础上执行操作
         try {
-            // ps = getConn().prepareStatement(s);//操作
+            conn = getDataSource().getConnection();
+            ps = conn.prepareStatement(sql);
             //完善操作参数
             ps.setInt(1, id);//60000
             //执行查询操作，返回结果集
@@ -74,6 +77,9 @@ public class OrdersDaoImpl extends Db implements IBaseDao<Orders> {
                 // 借助消费者实现类的精确查询，通过cutomer_id找到具体的消费者
                 orders.setCustomer(new CustomerDaoImpl().findById(rs.getInt("customer_id")));
             }
+            rs.close();
+            ps.close();
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
@@ -82,6 +88,13 @@ public class OrdersDaoImpl extends Db implements IBaseDao<Orders> {
 
     @Override
     public HashMap<Integer, Orders> findByProp(HashMap<String, Object> prop) {
-        return null;
+        HashMap<Integer, Orders> res = null;
+        String sql = "Select * from Orders";
+        try {
+            res = (HashMap<Integer, Orders>) runner.query(sql, new BeanMapHandler<Integer, Orders>(Orders.class));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 }

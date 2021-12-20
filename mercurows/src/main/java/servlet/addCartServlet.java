@@ -13,7 +13,6 @@ import pur.*;
 import service.impl.DataServiceImpl;
 
 @WebServlet("/addCart")
-
 public class addCartServlet extends HttpServlet {
     DataServiceImpl dsi = new DataServiceImpl();
     @Override
@@ -31,7 +30,7 @@ public class addCartServlet extends HttpServlet {
         while ((temp = br.readLine()) != null) {
             sb.append(temp);
         }
-        //对串进行分割取分割后的第二个字符
+
         String str_id = sb.toString().split("=")[1];
         //转整数
         int id = Integer.parseInt(str_id);
@@ -51,7 +50,7 @@ public class addCartServlet extends HttpServlet {
         orderItem = cart.get(goods.getId());
         if (orderItem == null) {
             orderItem = new OrderItem();
-            orderItem.setGoods(goods);
+            orderItem.setGoods_id(goods);
             orderItem.setBuyNum(1);
         }
         else {

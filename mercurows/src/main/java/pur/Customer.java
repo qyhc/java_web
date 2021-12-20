@@ -1,10 +1,7 @@
 package pur;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-
 //顾客
-public class Customer implements Serializable{
+public class Customer{
     int id;
     String realname;//真实名
     String username;

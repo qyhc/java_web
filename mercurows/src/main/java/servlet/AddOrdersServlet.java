@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.impl.GoodsDaoImpl;
 import pur.Customer;
+import pur.Goods;
 import pur.OrderItem;
 import pur.Orders;
 import service.impl.DataServiceImpl;
@@ -24,6 +26,7 @@ public class AddOrdersServlet extends HttpServlet{
     OrdersServicelmpl oci = new OrdersServicelmpl();
     DataServiceImpl dsi = new DataServiceImpl();
     OrdersItemServicelmpl oici = new OrdersItemServicelmpl();
+    GoodsDaoImpl gdi = new GoodsDaoImpl();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Customer customer = (Customer)req.getSession().getAttribute("customer");
@@ -38,10 +41,13 @@ public class AddOrdersServlet extends HttpServlet{
             sb.append(temp);
         }
 
+        // 商品的id
         String str_id = sb.toString().split("&")[0].split("=")[1];
         int id = Integer.parseInt(str_id);
+        // 商品的购买数量
         String str_num = sb.toString().split("&")[1].split("=")[1];
         int num = Integer.parseInt(str_num);
+        // 商品购买的总数
         String str_totalSum = sb.toString().split("&")[2].split("=")[1];
         float totalSum = Float.parseFloat(str_totalSum);
         String t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -55,12 +61,17 @@ public class AddOrdersServlet extends HttpServlet{
         order.setOrderTime(t);
         order.setPayTime(t);
         order.setCustomer(customer);
+        // 寻找对应的商品id编号
+        Goods goods = gdi.findById(id);
+        // 然后更新库存
+        goods.setStock(goods.getStock()-num);
+        gdi.modify(goods);
         oci.add(order);
 
         // 创建订单详情类
         OrderItem orderItem = new OrderItem();
-        orderItem.setOrders(order);
-        orderItem.setGoods(dsi.findById(id));
+        orderItem.setOrders_id(order);
+        orderItem.setGoods_id(dsi.findById(id));
         orderItem.setBuyPrice(dsi.findById(id).getOut_price());
         orderItem.setBuyNum(num);
         oici.add(orderItem);

@@ -22,12 +22,12 @@ public class GoodsServicelmpl implements IBaseDao<Goods> {
 
     @Override
     public boolean modify(Goods t) {
-        return false;
+        return gdi.modify(t);
     }
 
     @Override
     public Goods findById(int id) {
-        return null;
+        return gdi.findById(id);
     }
 
     @Override

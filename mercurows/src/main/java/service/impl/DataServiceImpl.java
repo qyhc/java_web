@@ -7,14 +7,18 @@ import java.util.*;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanMapHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
 import dao.Db;
 import dao.IBaseDao;
 import dao.impl.GoodsDaoImpl;
+import pur.Customer;
 import pur.Goods;
+import pur.Region;
 
 public class DataServiceImpl extends Db implements IBaseDao<Goods> {
+    QueryRunner runner = new QueryRunner(getDataSource());
     Goods goods;
     PreparedStatement ps = null;//带占位符参数？的操作
     ResultSet rs = null;//结果集
@@ -58,8 +62,20 @@ public class DataServiceImpl extends Db implements IBaseDao<Goods> {
             }
 
         } catch (SQLException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
+        }
+        return data;
+    }
+
+    public HashMap<Integer, Region> findRegionOnOrderitem() {
+        // String sql = "select customer_id from orderitem item inner join orders ers on item.orders_id = ers.id";
+        String sql = "select * from ((orderitem item inner join orders ers on item.orders_id = ers.id)"+
+                " inner join customer cu on cu.id = customer_id ) inner join region on cu.region_id = region.id";
+        HashMap<Integer, Region> data = null;
+        try {
+            data = (HashMap<Integer, Region>) runner.query(sql, new BeanMapHandler<Integer, Region>(Region.class));
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return data;
     }

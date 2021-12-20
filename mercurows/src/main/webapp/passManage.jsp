@@ -19,25 +19,26 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-4 control-label">原密码*</label>
                     <div class="col-sm-6">
-                        <input type="text" placeholder="请输入原始密码" class="form-control" id="inputEmail3" name="username" required/>
+                        <input type="text" placeholder="请输入原始密码" class="form-control" id="oriPassword" name="oriPassword" required/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-4 control-label">新密码*</label>
                     <div class="col-sm-6">
-                        <input type="password" placeholder="请输入新密码" name="password" class="form-control" id="inputPassword3" required/>
+                        <input type="password" placeholder="请输入新密码" name="newPassword" class="form-control" id="newPassword" required/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-4 control-label">确认新密码*</label>
                     <div class="col-sm-6">
-                        <input type="password" class="form-control" placeholder="请再次输入新密码" required/>
+                        <input type="password" class="form-control" placeholder="请再次输入新密码" name = "requNewPass" id = "requNewPass" required/>
                     </div>
+                    <span id="exist"></span>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword4" class="col-sm-4 control-label">手机*</label>
                     <div class="col-sm-6">
-                        <input type="tel" placeholder="请填写手机号或固定电话"  required name="tel" size="11" maxlength="11" class="form-control" id="inputPassword4"/>
+                        <input type="tel" placeholder="请填写手机号或固定电话"  required name="tel" size="11" maxlength="11" class="form-control" id="tel" name = "tel"/>
                     </div>
                     <span>获取验证码</span>
                 </div>
@@ -49,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-5  text-center">
-                        <button type="submit" class="btn btn-default btn-block btn-primary">确&nbsp;&nbsp;&nbsp;认
+                        <button type="submit" class="queding">确&nbsp;&nbsp;&nbsp;认
                         </button>
                     </div>
                 </div>
@@ -61,3 +62,60 @@
 </div>
 </body>
 </html>
+<script>
+    $(function(){
+        // 原来的密码
+        var oriPassword = $("#oriPassword");
+        // 新密码
+        var newPassword = $("#newPassword");
+        // 确认新密码
+        var requNewPass = $("#requNewPass");
+        // 电话号
+        var tel = $("#tel");
+
+        requNewPass.blur(function(){
+            // 判断两次输入的新密码是否一样
+            if((newPassword.val()) != (requNewPass.val())){
+                $('#exist').html("两次密码不一致");
+                $('#exist').css("color","red");
+                requNewPass.focus();
+            }
+            else{
+                $('#exist').html("√");
+                $('#exist').css("color","green");
+            }
+        });
+
+        $('.queding').click(function(){
+            // alert(oriPassword.val());
+            // alert(newPassword.val());
+            // 异步调用ajax
+            $.ajax({
+                url:"updatepass",
+                dataType:"json",
+                type:"post",
+                data:{
+                    "oriPassword":oriPassword.val(),
+                    "newPassword":newPassword.val(),
+                    "tel":tel.val()
+                },
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                success:function(message){
+                    if(message == '1'){
+                        alert('更新成功');
+                        // 刷新页面
+                        window.location.reload();
+                    }
+                    else{
+                        alert('电话或密码错误');
+                    }
+                },
+                error:function(err){
+                    alert(err);
+                }
+            });
+
+        });
+    });
+
+</script>

@@ -44,6 +44,7 @@ public class BrandDaoImpl extends Db implements IBaseDao<Brand> {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         return Brand;
     }
 

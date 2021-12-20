@@ -42,11 +42,12 @@ public class CustomerDaoImpl extends Db implements IBaseDao<Customer> {
     @Override
     public boolean modify(Customer customer) {
         boolean f = false;
-        String sql = "update customer set realname = ? ,pass = ? ,intro = ?,tel = ?, email = ?,gender = ?, cardID = ? where id = ?";
+        String sql = "update customer set realname = ? ,pass = ? ,intro = ?,tel = ?, email = ?,gender = ?, cardID = ?, region_id = ?  where id = ?";
         // update customer set realname = 666 ,pass = 666 ,intro = 666,email = 666,gender = 1, cardID = 6666  where id = 40025
         Object[] para = new Object[]{
             customer.getRealname(),customer.getPass(),customer.getIntro(),customer.getTel(),
-            customer.getEmail(),customer.getGender(),customer.getCardID(),customer.getId()
+                customer.getEmail(), customer.getGender(), customer.getCardID(), customer.getRegion().getId(),
+                customer.getId()
         };
         try {
             int i;

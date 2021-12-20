@@ -12,6 +12,7 @@
 
 </head>
 <body>
+    <%-- <c:out value= "${sessionScope.goods}" /> --%>
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
@@ -25,9 +26,9 @@
                             <div class="col-md-3 column tex-center"style = "margin-bottom: 20px">
                             <img alt="200×200" src = "static/images/${p.value.imgUrl}" class = "img-rounded" class="img-rounded" style="width: 200px;height: 200px;"/>
                             <blockquote>
-                                <%-- <p>
+                                <p>
                                     <c:out value="${p.value.keywords}"/>
-                                </p> --%>
+                                </p>
                                 ￥:<span> <c:out value="${p.value.out_price}"/>  </span>元
                                 <small>库存量：<c:out value="${p.value.stock}"/></small>
                             </blockquote>
@@ -41,7 +42,7 @@
             <jsp:include page="common/footer.jsp"/>
     </div>
 </body>
-</html>
+
 <%-- 动作 --%>
 <script>
     $(function () {
@@ -51,6 +52,7 @@
                 var id = $(this).val();
                 // alert($(this).val());
                 // 异步调用ajax
+                // alert('进来了~');
                 $.ajax({
                     url:"addCart",
                     dataType:"json",
@@ -60,13 +62,15 @@
                     },
                     contentType:"application/json;charset=utf-8",
                     success:function(){
-
+                        // alert("success");
                     },
                     error:function(){
-
+                        // alert("error");
                     }
                 });
             });
         });
     });
-</script>
+
+    </script>
+</html>

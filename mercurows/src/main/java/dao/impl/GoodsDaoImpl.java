@@ -3,18 +3,11 @@ package dao.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.print.event.PrintEvent;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanMapHandler;
-import org.apache.commons.dbutils.handlers.MapHandler;
-import org.apache.commons.dbutils.handlers.MapListHandler;
 
 import dao.Db;
 import dao.IBaseDao;
@@ -28,7 +21,7 @@ public class GoodsDaoImpl extends Db implements IBaseDao<Goods> {
     ResultSet rs = null;//结果集
 
     @Override
-    public boolean add(Goods Goods) {
+    public boolean add(Goods goods) {
         return false;
     }
 
@@ -38,8 +31,20 @@ public class GoodsDaoImpl extends Db implements IBaseDao<Goods> {
     }
 
     @Override
-    public boolean modify(Goods Goods) {
-        return false;
+    public boolean modify(Goods goods) {
+        boolean res = false;
+        // String sql = "update customer set realname = ? ,pass = ? ,intro = ?,tel = ?, email = ?,gender = ?, cardID = ?, region_id = ?  where id = ?";
+        String sql = "update goods set stock = ? where id = ?";
+        // update customer set realname = 666 ,pass = 666 ,intro = 666,email = 666,gender = 1, cardID = 6666  where id = 40025
+        Object[] para = new Object[]{
+            goods.getStock(),goods.getId()
+        };
+        try {
+            res = runner.update(sql, para) > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 
     /**
@@ -51,51 +56,16 @@ public class GoodsDaoImpl extends Db implements IBaseDao<Goods> {
     public HashMap<Integer, Goods> findByProp(HashMap<String, Object> prop) {
         String sql = "select  *  from goods";
         HashMap<Integer, Goods> data = null;
-
-        // try {
-        //     List<Map<String, Object>> map = runner.query(sql, new MapListHandler());
-        //     for (Map<String, Object> goods : map) {
-        //         String sql2 = "SELECT  *  from Goods where id = ?";
-        //         Integer id = (Integer) goods.get("id");
-        //         data.put(id, (Goods) runner.query(sql2, new BeanHandler<Goods>(Goods.class), "" + id));
-        //     }
-
+        if(prop!=null && prop.containsKey("keywords")){
+            String u = (String) prop.get("keywords");
+            sql += " where keywords like '%" +u +"%'";
+        }
         try {
             data = (HashMap<Integer, Goods>) runner.query(sql, new BeanMapHandler<Integer, Goods>(Goods.class));
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        // //在连接的基础上执行操作
-        // try {
-        //     // ps = getConn().prepareStatement(query);//操作
-        //     //执行查询操作，返回结果集
-        //     rs = ps.executeQuery();
-        //     //判断并将结果集转化为对象
-        //     //rs!=null
-        //     if (rs!=null) {
-        //         //若有数据回来，则先生成订单对象，再填充对象
-        //         data = new HashMap<Integer, Goods>();
-        //         while (rs.next()) {
-        //             goods = new Goods();
-        //             goods.setId(rs.getInt("id"));
-        //             goods.setCh_spec(rs.getString("ch_spec"));
-        //             goods.setCode(rs.getString("code"));
-        //             goods.setImgUrl(rs.getString("imgUrl"));
-        //             goods.setIn_price(rs.getDouble("in_price"));
-        //             goods.setKeywords(rs.getString("keywords"));
-        //             goods.setOut_price(rs.getDouble("out_price"));
-        //             goods.setStock(rs.getInt("stock"));
-        //             goods.setProduct(null);
-        //             data.put(goods.getId(), goods);
-        //         }
-
-        //         //。。。。。。
-        //     }
-        // } catch (SQLException e) {
-        //     System.out.println(e.toString());
-        // }
         return data;
     }
 

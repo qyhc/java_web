@@ -70,17 +70,17 @@
                             <c:forEach items = "${sessionScope.cart}" var="p">
                                 <tr class="rowData"  id = "rowData">
                                     <td class = "tck">
-                                        <input type="checkbox" class="ck"value="${p.value.goods.id}" >
+                                        <input type="checkbox" class="ck"value="${p.value.goods_id.id}" >
                                     </td>
                                     <td>
-                                        <img src = "static/images/${p.value.goods.imgUrl}" alt="50x50" style = "width: 50px;height:50px;">
-                                        <%-- ${p.value.goods.id} --%>
+                                        <img src = "static/images/${p.value.goods_id.imgUrl}" alt="50x50" style = "width: 50px;height:50px;">
+                                        <%-- ${p.value.goods_id.id} --%>
                                     </td>
                                     <td>
-                                        ${p.value.goods.ch_spec}
+                                        ${p.value.goods_id.ch_spec}
                                     </td>
                                     <td>
-                                        库存：${p.value.goods.stock}
+                                        库存：<span id = "stock" class = "stock">${p.value.goods_id.stock}</span>
                                     </td>
                                     <td class = "tnum">
                                         <button class = "reduce">-</button>
@@ -89,13 +89,16 @@
                                         <button class = "plus">+</button>
                                     </td>
                                     <td class="price">
-                                        ${p.value.goods.out_price}
+                                        ${p.value.goods_id.out_price}
                                     </td>
                                     <td class="xj">
-                                        ${p.value.buyNum*p.value.goods.out_price}
+                                        ${p.value.buyNum*p.value.goods_id.out_price}
                                     </td>
                                     <td>
                                         <span class = "del">删除</span>
+                                    </td>
+                                    <td>
+                                        <span id="alter"></span>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -141,24 +144,34 @@
                 var strNum = $(this).prev().val();
                 var intNum = parseInt(strNum);
                 var id = $(this).parents('.rowData').find('.tck').find('.ck').val();
+                var htmlStock= $("#stock").html();
+                var stock = parseInt(htmlStock);
+
+                // alert(stock);
                 intNum = intNum+1;
-                $(this).prev().val(intNum);
-                $.ajax({
-                    url:"addCart",
-                    dataType:"json",
-                    type:"post",
-                    data:{
-                        "id":id,
-                        // "num"
-                    },
-                    contentType:"application/json;charset=utf-8",
-                    success:function(){
-
-                    },
-                    error:function(){
-
-                    }
-                });
+                // alert(intNum);
+                if(intNum > stock){
+                    alert("购买数量超过上限！");
+                }
+                else{
+                    $(this).prev().val(intNum);
+                    $.ajax({
+                        url:"addCart",
+                        dataType:"json",
+                        type:"post",
+                        data:{
+                            "id":id,
+                            // "num"
+                        },
+                        contentType:"application/json;charset=utf-8",
+                        success:function(){
+                            // alert("Success!");
+                        },
+                        error:function(){
+                            // alert("Error!");
+                        }
+                    });
+                }
                 // alert(strNum);
                 // 异步调用ajax
                 xj($(this),intNum);
@@ -281,8 +294,9 @@
                 }
                 else{
                     if(confirm('确认购买吗？')){
-                        alert('购买成功');
+
                         // 删除购物车中的对应列表
+                        var flage = 0;
                         $('.ck').each(function(){
                             if($(this).is(':checked')){
                                 // alert('选了')
@@ -301,51 +315,64 @@
                                 // alert("商品id为："+id);
                                 // alert("购买数量为："+num);
                                 // alert("实付金额为："+totalSum);
-                                otr.remove();
+                                var htmlStock= $("#stock").html();
+                                var stock = parseInt(htmlStock);
+                                // 如果该商品超过了库存，则进行标记，且不进行该商品的结算
+                                if(num > stock){
+                                    flage = -1;
+                                }
+                                else{
+                                    otr.remove();
+                                    // 并更新数据库中的相应库存 × 与 购物车中的数量 √
+                                    // 异步调用ajax,删除对应购物车中的商品订单 √
+                                    //+ - 号异步调用更新 购物车 √
+                                    //写入结算时将商品写入订单数据库
 
-                                // 并更新数据库中的相应库存 × 与 购物车中的数量 √
-                                // 异步调用ajax,删除对应购物车中的商品订单 √
-                                //+ - 号异步调用更新 购物车 √
-                                //写入结算时将商品写入订单数据库
+                                    // 1、将每一个被选中的商品创建一个订单
+                                    $.ajax({
+                                        url:"addOrders",
+                                        dataType:"json",
+                                        type:"post",
+                                        data:{
+                                            "id":id,//商品编号
+                                            "num":num,//购买该商品的总数量
+                                            "totalSum":totalSum//购买商品的应付总金额
+                                        },
+                                        contentType:"application/json;charset=utf-8",
+                                        success:function(){
 
-                                // 1、将每一个被选中的商品创建一个订单
-                                $.ajax({
-                                    url:"addOrders",
-                                    dataType:"json",
-                                    type:"post",
-                                    data:{
-                                        "id":id,//商品编号
-                                        "num":num,//购买该商品的总数量
-                                        "totalSum":totalSum//购买商品的应付总金额
-                                    },
-                                    contentType:"application/json;charset=utf-8",
-                                    success:function(){
+                                        },
+                                        error:function(){
 
-                                    },
-                                    error:function(){
+                                        }
+                                    });
 
-                                    }
-                                });
+                                    // 2、将对应的商品从购物车中删除
+                                    $.ajax({
+                                        url:"delCart",
+                                        dataType:"json",
+                                        type:"post",
+                                        data:{
+                                            "id":id,
+                                            "num":num
+                                        },
+                                        contentType:"application/json;charset=utf-8",
+                                        success:function(){
 
-                                // 2、将对应的商品从购物车中删除
-                                $.ajax({
-                                    url:"delCart",
-                                    dataType:"json",
-                                    type:"post",
-                                    data:{
-                                        "id":id,
-                                        "num":num
-                                    },
-                                    contentType:"application/json;charset=utf-8",
-                                    success:function(){
+                                        },
+                                        error:function(){
 
-                                    },
-                                    error:function(){
-
-                                    }
-                                });
+                                        }
+                                    });
+                                }
                             }
                         });
+                        if(flage == 0){
+                            alert('购买成功');
+                        }
+                        else{
+                            alert('存在物品超过库存，请检查！');
+                        }
                     }
                 }
             });

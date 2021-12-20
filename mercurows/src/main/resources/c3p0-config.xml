@@ -15,8 +15,9 @@
         <property name = "jdbcUrl">jdbc:mysql://localhost:3306/javaweb?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true&amp;zeroDateTimeBehavior=convertToNull</property>
         <property name = "user">root</property>
         <property name = "password">5508769123</property>
-        <property name = "initialPoolSize">20</property>
-        <property name = "maxPoolSize">30</property>
+        <property name = "initialPoolSize">5</property>
+        <property name = "maxPoolSize">135</property>
+        <property name="checkoutTimeout">3000</property>
 
     </default-config>
 </c3p0-config>

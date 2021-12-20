@@ -29,15 +29,16 @@
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-4 control-label">密码*</label>
                     <div class="col-sm-6">
-                        <input type="password" placeholder="请填写密码" name="pass" class="form-control" id="inputPassword3"
+                        <input type="password" placeholder="请填写密码" name="pass" class="form-control" id="pass"
                                required/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-4 control-label">确认密码*</label>
+                    <label for="inputPassword3" class="col-sm-4 control-label" >确认密码*</label>
                     <div class="col-sm-6">
-                        <input type="password" class="form-control" placeholder="请确认密码" required/>
+                        <input type="password" class="form-control" placeholder="请确认密码" name = "requNewPass" id =  "requNewPass" required/>
                     </div>
+                    <span id="exist"></span>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword4" class="col-sm-4 control-label">手机*</label>
@@ -140,6 +141,28 @@
                     }
                 }
             );
+        });
+    });
+
+
+    $(function(){
+        // 新密码
+        var pass = $("#pass");
+        // 确认新密码
+        var requNewPass = $("#requNewPass");
+        // 电话号
+
+        requNewPass.blur(function(){
+            // 判断两次输入的新密码是否一样
+            if((pass.val()) != (requNewPass.val())){
+                $('#exist').html("两次密码不一致");
+                $('#exist').css("color","red");
+                requNewPass.focus();
+            }
+            else{
+                $('#exist').html("√");
+                $('#exist').css("color","green");
+            }
         });
     });
 

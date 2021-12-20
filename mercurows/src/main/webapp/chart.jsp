@@ -21,6 +21,7 @@
         var bingtu = echarts.init(document.getElementById('bingtu'));
         var dayData = echarts.init(document.getElementById('dayData'));
 
+
         // 指定图表的配置项和数据
         var option = {
             title: {
@@ -31,18 +32,59 @@
                 data:['销量']
             },
             xAxis: {
-                data: ["情人节组合","白玫瑰","红玫瑰(束)","康乃馨","百合","其它"]
+                data: []
             },
             yAxis: {},
             series: [{
                 name: '销量',
                 type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
+                data: []
             }]
         };
 
-        // 使用刚指定的配置项和数据显示图表。
-        zutu.setOption(option);
+        // 显示加载画面 等待数据从后端传至前端
+        zutu.showLoading();
+        $.ajax({
+            url:"exc",
+            dataType:"json",
+            type:"get",
+            // async:false,
+            data:{
+                "select":"zutu"
+            },
+            contentType:"application/json;charset=utf-8",
+            success:function(resule){
+                // alert("Success");
+                // alert(resule);
+                var jsonobj= eval(resule);
+                // var newData= eval('(' + newData + ')');  // 把JSON字符串解析为javascript对象
+                // 隐藏加载画面
+                zutu.hideLoading();
+                // 使用从后端传来的配置项和数据显示图表。
+                zutu.setOption({
+                    title: {
+                        text: '商城数据-柱图'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data:['销量']
+                    },
+                    xAxis: {
+                        data: jsonobj.data1
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '销量',
+                        type: 'bar',
+                        data: jsonobj.data2
+                    }]
+                });
+            },
+            error:function(){
+                alert("Error");
+            }
+        });
+
 
         // 指定图表的配置项和数据
         var option = {
@@ -55,19 +97,52 @@
                     type: 'pie',
                     radius: '70%',
                     roseType: 'angle',
-                    data:[
-                        {value:235, name:'海南省'},
-                        {value:274, name:'江西省'},
-                        {value:310, name:'广西省'},
-                        {value:335, name:'湖南省'},
-                        {value:400, name:'广东省'}
-                    ]
+                    data:[]
                 }
             ]
         };
 
+        // 显示加载画面 等待数据从后端传至前端
+        bingtu.showLoading();
+        $.ajax({
+            url:"exc",
+            dataType:"json",
+            type:"get",
+            // async:false,
+            data:{
+                "select":"bingtu"
+            },
+            contentType:"application/json;charset=utf-8",
+            success:function(resule){
+                // alert("Success");
+                // alert(resule);
+                var jsonobj= eval(resule);
+                // var newData= eval('(' + newData + ')');  // 把JSON字符串解析为javascript对象
+                // 隐藏加载画面
+                bingtu.hideLoading();
+                // 使用从后端传来的配置项和数据显示图表。
+                bingtu.setOption({
+                    title: {
+                        text: '商城数据-订单分布'
+                    },
+                    series : [
+                        {
+                            name: '订单来源',
+                            type: 'pie',
+                            radius: '70%',
+                            roseType: 'angle',
+                            data:jsonobj
+                        }
+                    ]
+                });
+            },
+            error:function(){
+                alert("Error");
+            }
+        });
+
         // 使用刚指定的配置项和数据显示图表。
-        bingtu.setOption(option);
+        // bingtu.setOption(option);
 
 
         const colors = ['#5470C6', '#EE6666'];
@@ -179,3 +254,4 @@
 </div>
 </body>
 </html>
+

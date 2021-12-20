@@ -33,7 +33,7 @@
                                 <div class="col-md-12 column">
                                 <c:choose>
                                 <%-- 如果购物车为空， --%>
-                                    <c:when test = "${sessionScope.cart==null}">
+                                    <c:when test = "${sessionScope.orderitem==null}">
                                         <div class="jumbotron text-primary">
                                             <h3>
                                                 您还没有任何订单!
@@ -47,9 +47,9 @@
                                                 <div class="panel-heading">
                                                     <a class="panel-title" data-toggle="collapse"
                                                     data-parent="#panel-994901" href="#panel-element-786560">
-                                                        订单编号：${ca.value.orders.id} 下单日期：${ca.value.orders.orderTime}  总金额：${ca.value.orders.realSum}元<br>
-                                                        收件人：${ca.value.orders.receiverName} 送货地址：${ca.value.orders.receiverAddress}<br>
-                                                        订单状态：${ca.value.orders.state}
+                                                        订单编号：${orderitem.value.orders_id.id} 下单日期：${orderitem.value.orders_id.orderTime}  总金额：${orderitem.value.orders_id.realSum}元<br>
+                                                        收件人：${orderitem.value.orders_id.receiverName} 送货地址：${orderitem.value.orders_id.receiverAddress}<br>
+                                                        订单状态：${orderitem.value.orders_id.state}
                                                     </a>
                                                 </div>
                                                 <div id="panel-element-786560" class="panel-collapse in">
@@ -77,29 +77,47 @@
                                                                 </thead>
                                                                 <tbody>
                                                                 <%-- 遍历购物车中的所有物品 --%>
-                                                                <c:forEach items = "${sessionScope.cart}" var="p">
+                                                                <c:forEach items = "${sessionScope.orderitem}" var="p">
                                                                     <tr class="rowData">
                                                                         <td>
                                                                             <img class="imgUrl img-rounded"
                                                                                 style="width: 30px;height:30px;"
-                                                                                src="static/images/${p.value.goods.imgUrl}"/>
+                                                                                src="static/images/${p.value.goods_id.imgUrl}"/>
                                                                         </td>
                                                                         <td>
-                                                                            <span class="name">"${p.value.goods.keywords}"</span>
+                                                                            <span class="name">"${p.value.goods_id.keywords}"</span>
                                                                         </td>
                                                                         <td>
-                                                                            <span class="price">"${p.value.buyPrice}"</span>
+                                                                            <span class="price">"${p.value.goods_id.out_price}"</span>
                                                                         </td>
                                                                         <td>
                                                                             <span class="price">"${p.value.buyNum}"</span>
                                                                         </td>
                                                                         <td>
                                                                             <span class="xj">
-                                                                                ${p.value.buyNum*p.value.goods.out_price}
+                                                                                ${p.value.buyNum*p.value.goods_id.out_price}
                                                                             </span>
                                                                         </td>
                                                                     </tr>
                                                                 </c:forEach>
+                                                                </tbody>
+                                                                <tbody>
+                                                                    <tr class = "rowData">
+                                                                        <td>
+
+                                                                        </td>
+                                                                        <td>
+
+                                                                        </td>
+                                                                        <td>
+
+                                                                        </td>
+                                                                        <td>
+
+                                                                        </td>
+                                                                        <td>
+
+                                                                        </td>
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -129,21 +147,6 @@
 </div>
 </body>
 </html>
-<%-- 动作 --%>
-<script>
-    $(function ()){
-        function xj(obj,num){
-        var htmlPrice= obj.parents('.rowData').find('.price').html();
-        var xiaoji = parseFloat(htmlPrice)*num;
-        obj.parents('.rowData').find('.xj').html(xiaoji.toFixed(2));
-        // alert(htmlPrice);
-        }
-    }
-
-
-
-
-</script>
 
 
 
