@@ -6,9 +6,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanHandler;
-
 import dao.Db;
 import dao.IBaseDao;
 import pur.Region;

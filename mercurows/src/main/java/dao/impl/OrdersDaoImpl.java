@@ -37,7 +37,6 @@ public class OrdersDaoImpl extends Db implements IBaseDao<Orders> {
                 orders.setId(Integer.parseInt(big_id.toString()));
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return res;

@@ -13,7 +13,6 @@ import org.apache.commons.dbutils.handlers.MapListHandler;
 import dao.Db;
 import dao.IBaseDao;
 import dao.impl.GoodsDaoImpl;
-import pur.Customer;
 import pur.Goods;
 import pur.Region;
 
@@ -26,17 +25,14 @@ public class DataServiceImpl extends Db implements IBaseDao<Goods> {
 
     @Override
     public boolean add(Goods t) {
-        // TODO Auto-generated method stub
         return false;
     }
     @Override
     public boolean delete(int id) {
-        // TODO Auto-generated method stub
         return false;
     }
     @Override
     public boolean modify(Goods t) {
-        // TODO Auto-generated method stub
         return false;
     }
     @Override

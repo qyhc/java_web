@@ -1,7 +1,6 @@
 package test;
 
 import pur.Goods;
-import pur.Product;
 
 import service.impl.DataServiceImpl;
 

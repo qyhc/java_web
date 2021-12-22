@@ -1,6 +1,5 @@
 package service.impl;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +19,6 @@ public class CustomerServicelmpl implements IBaseDao<Customer> {
 
     @Override
     public boolean delete(int id) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -31,7 +29,6 @@ public class CustomerServicelmpl implements IBaseDao<Customer> {
 
     @Override
     public Customer findById(int id) {
-        // TODO Auto-generated method stub
         return null;
     }
 
