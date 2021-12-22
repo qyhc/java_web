@@ -12,7 +12,7 @@ public class TestCustomerDaolmpl {
         cu.setTel("1234567");
         Region re = new Region();
         re.setId(90002);
-        cu.setRegion(re);
+        cu.setRegion_id(re);
         System.out.print(new CustomerDaoImpl().add(cu));
     }
 }

@@ -14,9 +14,9 @@
             <div class="tabbable" id="tabs-418875">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#all" data-toggle="tab">全部订单</a>
+                        <a href="#all" data-toggle="tab">已完成</a>
                     </li>
-                    <li>
+                    <%-- <li>
                         <a href="#nopay" data-toggle="tab">未支付</a>
                     </li>
                     <li>
@@ -24,7 +24,7 @@
                     </li>
                     <li>
                         <a href="#complete" data-toggle="tab">已完成</a>
-                    </li>
+                    </li> --%>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="all">
@@ -47,9 +47,9 @@
                                                 <div class="panel-heading">
                                                     <a class="panel-title" data-toggle="collapse"
                                                     data-parent="#panel-994901" href="#panel-element-786560">
-                                                        订单编号：${orderitem.value.orders_id.id} 下单日期：${orderitem.value.orders_id.orderTime}  总金额：${orderitem.value.orders_id.realSum}元<br>
-                                                        收件人：${orderitem.value.orders_id.receiverName} 送货地址：${orderitem.value.orders_id.receiverAddress}<br>
-                                                        订单状态：${orderitem.value.orders_id.state}
+                                                        <%-- 订单编号：${sessionScope.orderitem.value.orders_id.id} 下单日期：${sessionScope.orderitem.value.orders_id.orderTime}  总金额：${sessionScope.orderitem.value.orders_id.realSum}元<br>
+                                                        收件人：${sessionScope.orderitem.value.orders_id.customer.username} 送货地址：${sessionScope.orderitem.value.orders_id.receiverAddress}<br>
+                                                        订单状态：已支付 --%>
                                                     </a>
                                                 </div>
                                                 <div id="panel-element-786560" class="panel-collapse in">
@@ -63,6 +63,9 @@
                                                                     </th>
                                                                     <th>
                                                                         描述
+                                                                    </th>
+                                                                    <th>
+                                                                    购买日期
                                                                     </th>
                                                                     <th>
                                                                         价格(￥)
@@ -88,6 +91,9 @@
                                                                             <span class="name">"${p.value.goods_id.keywords}"</span>
                                                                         </td>
                                                                         <td>
+                                                                            <span class="date">"${p.value.orders_id.orderTime}"</span>
+                                                                        </td>
+                                                                        <td>
                                                                             <span class="price">"${p.value.goods_id.out_price}"</span>
                                                                         </td>
                                                                         <td>
@@ -104,19 +110,14 @@
                                                                 <tbody>
                                                                     <tr class = "rowData">
                                                                         <td>
-
                                                                         </td>
                                                                         <td>
-
                                                                         </td>
                                                                         <td>
-
                                                                         </td>
                                                                         <td>
-
                                                                         </td>
                                                                         <td>
-
                                                                         </td>
                                                                 </tbody>
                                                             </table>

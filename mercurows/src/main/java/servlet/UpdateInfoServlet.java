@@ -20,7 +20,10 @@ public class UpdateInfoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 從session 中獲取customer對象
         Customer customer = (Customer) req.getSession().getAttribute("customer");
-
+        req.setCharacterEncoding("utf-8");  //这里不设置编码会有乱码
+        resp.setContentType("text/html;charset=utf-8");
+        resp.setHeader("Cache-Control", "no-cache");
+        // PrintWriter out = resp.getWriter();  //输出中文，这一句一定要放到response.setContentType("text/html;charset=utf-8"),  response.setHeader("Cache-Control", "no-cache")后面，否则中文返回到页面是乱码
         // 獲取頁面要修改的内容 （也可以采用bean 對象處理）
         String realname = req.getParameter("realname");
         // 處理中文亂碼問題
@@ -30,7 +33,7 @@ public class UpdateInfoServlet extends HttpServlet {
 
         // 以下如法炮製
 
-        String intro = req.getParameter("intor");
+        String intro = req.getParameter("intro");
         customer.setIntro(intro);
 
         String tel = req.getParameter("tel");

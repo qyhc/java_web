@@ -46,7 +46,7 @@ public class UpdateAddressServlet extends HttpServlet {
         region.setName(str_text3);
         region.setId(int_text3);
 
-        customer.setRegion(region);
+        customer.setRegion_id(region);
         if (csi.modify(customer)) {
             req.getSession().setAttribute("customer", customer);
             resp.setHeader("Content-Type", "text/html;charset=utf-8");

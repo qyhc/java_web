@@ -157,11 +157,32 @@
             if((pass.val()) != (requNewPass.val())){
                 $('#exist').html("两次密码不一致");
                 $('#exist').css("color","red");
-                requNewPass.focus();
+                pass.focus();
             }
+            // else if(requNewPass.val() == 0){
+            //     $('#exist').html("确认密码不能为空");
+            //     $('#exist').css("color","red");
+            //     requNewPass.focus();
+            // }
             else{
                 $('#exist').html("√");
                 $('#exist').css("color","green");
+            }
+        });
+
+        pass.blur(function(){
+            // 判断两次输入的新密码是否一样
+            if(requNewPass.val() !=0 && (pass.val()) == (requNewPass.val())){
+                $('#exist').html("√");
+                $('#exist').css("color","green");
+            }
+            else{
+                if(requNewPass.val() !=0){
+                    $('#exist').html("两次密码不一致");
+                    $('#exist').css("color","red");
+                    // 清除确认密码栏中的密码
+                    $("#requNewPass").val("");
+                }
             }
         });
     });

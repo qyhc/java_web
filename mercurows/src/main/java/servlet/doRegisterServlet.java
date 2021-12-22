@@ -25,7 +25,7 @@ public class doRegisterServlet extends HttpServlet {
         //        resp.getWriter().println("my first program！");
         // 接受从register.jsp传来的三个参数
         String u = req.getParameter("username");
-        String p = req.getParameter("password");
+        String p = req.getParameter("pass");
         String tel = req.getParameter("tel");
 
         // 下面生成 Region，Customer对象，添加入顾客中
@@ -36,7 +36,7 @@ public class doRegisterServlet extends HttpServlet {
         cu.setUsername(u);
         cu.setPass(p);
         cu.setTel(tel);
-        cu.setRegion(re);
+        cu.setRegion_id(re);
 
         // 获取当前时间戳
         String t = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());

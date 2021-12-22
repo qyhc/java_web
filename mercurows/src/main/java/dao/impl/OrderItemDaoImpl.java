@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanMapHandler;
 
 import dao.Db;
 import dao.IBaseDao;
@@ -80,6 +79,10 @@ public class OrderItemDaoImpl extends Db implements IBaseDao<OrderItem> {
         HashMap<Integer, OrderItem> res = new HashMap<Integer, OrderItem>();
         OrderItem orderItem = null;//定义订单类对象
         String sql = "Select * from orderitem";
+        if (prop != null && prop.containsKey("customers_id")) {
+            sql = " select item.id,item.buyNum,item.buyPrice,item.goods_id,item.orders_id from orderitem item inner join"+
+                    " orders on item.orders_id = orders.id where orders.customer_id = " + prop.get("customers_id");
+        }
         try {
             conn = getDataSource().getConnection();
             ps = conn.prepareStatement(sql);
@@ -102,9 +105,6 @@ public class OrderItemDaoImpl extends Db implements IBaseDao<OrderItem> {
             // res = (HashMap<Integer, OrderItem>) runner.query(sql, new BeanMapHandler<Integer, OrderItem>(OrderItem.class));
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-
-            // rs.close();
         }
         return res;
     }

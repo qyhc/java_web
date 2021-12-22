@@ -12,17 +12,11 @@ import pur.Customer;
 import service.impl.CustomerServicelmpl;
 
 @WebServlet("/myInfo")
-
 public class myInfoServlet extends HttpServlet {
     CustomerServicelmpl csi = new CustomerServicelmpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //        resp.getWriter().println("my first program！");
-        // String u = req.getParameter("username");
-        // String p = req.getParameter("password");
-        // Customer c = csi.login(u, p);
-        // req.getSession().setAttribute("customer", c);
         req.getRequestDispatcher("myInfo.jsp").forward(req, resp);
     }
 

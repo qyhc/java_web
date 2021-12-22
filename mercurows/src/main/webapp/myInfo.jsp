@@ -27,9 +27,9 @@
                 <div class="form-group">
                     <label for="intro" class="col-sm-4 control-label">个人简介*</label>
                     <div class="col-sm-6">
-                        <textarea placeholder="请填写个人简介" name="intro"
-                                  value="${sessionScope.customer.intro}"
-                                  class="form-control" id="intro"></textarea>
+                        <textarea placeholder="请填写个人简介" name="intro"class="form-control" id="intro">
+                            ${sessionScope.customer.intro}
+                        </textarea>
                     </div>
                 </div>
 

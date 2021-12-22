@@ -8,6 +8,6 @@
          id="WebApp_ID" metadate-complete = "false" version="3.0">
   <display-name>Archetype Created Web Application</display-name>
   <welcome-file-list>
-  <welcome-file>doLoin.jsp</welcome-file>
+  <welcome-file>market</welcome-file>
   </welcome-file-list>
 </web-app>

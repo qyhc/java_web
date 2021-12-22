@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <title>会员中心</title>
@@ -31,7 +32,7 @@
                     <a href="myFav" target="content">我的收藏</a>
                 </div>
                 <div class="list-group-item">
-                    <a href="myOrder" target="content">我的订单</a> <span class="badge btn-danger">14</span>
+                    <a href="myOrder" target="content">我的订单</a> <span class="badge btn-danger">${fn:length(sessionScope.orderitem)}</span>
                 </div>
                 <div class="list-group-item">
                     <a href="addressManage" target="content">地址管理</a>
@@ -39,7 +40,7 @@
                 <div class="list-group-item">
                     <a href="chart" target="content">数据可视化</a>
                 </div>
-                <a class="list-group-item active"> <span class="badge">14</span> 会员通知</a>
+                <a class="list-group-item active"> <span class="badge"></span> 会员通知</a>
             </div>
         </div>
         <div class="col-md-10 column">
